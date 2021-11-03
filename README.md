@@ -14,6 +14,7 @@ How to use in windows os
 
 ```
 git clone https://github.com/bigbeef/grib2json.git
+
 # in china
 #git clone https://github.com.cnpmjs.org/bigbeef/grib2json
 
@@ -26,6 +27,7 @@ Create docker image
 
 ```
 git clone https://github.com/bigbeef/grib2json.git
+
 # in china
 #git clone https://github.com.cnpmjs.org/bigbeef/grib2json
 
