@@ -45,3 +45,9 @@ docker run --name grib2json \
 -e "ARGS=--names --data --output /app/docker/grib2json/output.json --compact /app/docker/grib2json/gfs.t18z.pgrb2.1p00.anl" \
 winfed/grib2json
 ```
+
+Reference
+=========
+[danwild/wind-js-server](https://github.com/danwild/wind-js-server)
+[weacast/weacast-grib2json](https://github.com/weacast/weacast-grib2json)
+[cambecc/grib2json](https://github.com/cambecc/grib2json)
