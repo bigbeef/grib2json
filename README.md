@@ -1,72 +1,45 @@
 grib2json
 =========
 
-A command line utility that decodes [GRIB2](http://en.wikipedia.org/wiki/GRIB) files as JSON.
-
-This utility uses the netCDF-Java GRIB decoder, part of the [THREDDS](https://github.com/Unidata/thredds) project
-by University Corporation for Atmospheric Research/Unidata.
-
-Installation
-------------
-
 ```
-git clone <this project>
-mvn package
+# download gribfile
+https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_1p00.pl
+
+example:
+https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_1p00.pl?file=gfs.t00z.pgrb2.1p00.anl&lev_100_m_above_ground=on&var_UGRD=on&var_VGRD=on&leftlon=0&rightlon=360&toplat=90&bottomlat=-90&dir=%2Fgfs.20211103%2F00%2Fatmos
 ```
 
-This creates a .tar.gz in the target directory. Unzip and untar the package in a location of choice.
-
-Usage
------
-
-The `grib2json` launch script is located in the `bin` directory and requires the `JAVA_HOME` environment
-variable to be defined.
+How to use in windows os
+=========
 
 ```
-> grib2json --help
-Usage: grib2json [options] FILE
-	[--compact -c] : enable compact Json formatting
-	[--data -d] : print GRIB record data
-	[--filter.category --fc value] : select records with this numeric category
-	[--filter.parameter --fp value] : select records with this numeric parameter
-	[--filter.surface --fs value] : select records with this numeric surface type
-	[--filter.value --fv value] : select records with this numeric surface value
-	[--help -h] : display this help
-	[--names -n] : print names of numeric codes
-	[--output -o value] : write output to the specified file (default is stdout)
-	[--verbose -v] : enable logging to stdout
+git clone https://github.com/bigbeef/grib2json.git
+# in china
+#git clone https://github.com.cnpmjs.org/bigbeef/grib2json
+
+cd grib2json/bin
+grib2json.cmd --data --output ../demo/output.json --names --compact ../demo/gfs.t12z.pgrb2.1p00.f000
 ```
 
-For example, the following command outputs to stdout the records for parameter 2 (U-component_of_wind), with
-surface type 103 (Specified height level above ground), and surface value 10.0 meters from the GRIB2 file
-_gfs.t18z.pgrbf00.2p5deg.grib2_. Notice the optional inclusion of human-readable _xyzName_ keys and the data array:
+Create docker image
+=========
 
 ```
-> grib2json --names --data --fp 2 --fs 103 --fv 10.0 gfs.t18z.pgrbf00.2p5deg.grib2
+git clone https://github.com/bigbeef/grib2json.git
+# in china
+#git clone https://github.com.cnpmjs.org/bigbeef/grib2json
 
-[
-    {
-        "header":{
-            "discipline":0,
-            "disciplineName":"Meteorological products",
-            "gribEdition":2,
-            "gribLength":27759,
-            "center":7,
-            "centerName":"US National Weather Service - NCEP(WMC)",
-            "parameterNumber":2,
-            "parameterNumberName":"U-component_of_wind",
-            "parameterUnit":"m.s-1",
-            "surface1Type":103,
-            "surface1TypeName":"Specified height level above ground",
-            "surface1Value":10.0,
-            ...
-        },
-        "data":[
-            -2.12,
-            -2.27,
-            -2.41,
-            ...
-        ]
-    }
-]
+cd grib2json
+
+docker build -t winfed/grib2json .
+```
+
+How to use in docker
+=========
+
+```
+docker run --name grib2json \
+--rm -v /app/docker/grib2json:/app/docker/grib2json \
+-e "ARGS=--names --data --output /app/docker/grib2json/output.json --compact /app/docker/grib2json/gfs.t18z.pgrb2.1p00.anl" \
+winfed/grib2json
 ```
